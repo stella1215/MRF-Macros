@@ -3,11 +3,7 @@
 
 import os
 
-from common import read_excel_file, read_excel_sheet, gen_empty_excel
-
-OUT_FNS = ('DISTRICT BOARD FEEDBACK.xlsx',
-           'TOTAL HOURS PER TENET.xlsx',
-           'TOTAL FUNDS RAISED PER DFI.xlsx')
+from common import read_excel_file, gen_empty_excel, OUT_FNS
 
 
 def calc_funds(ws, ws_mo, r, c):
@@ -50,7 +46,7 @@ def month_funds(wb, ws, r):
         others (float): Others for the month
     """
     mo = ws[f'A{r}'].value
-    ws_mo = read_excel_sheet(wb, mo)
+    ws_mo = wb[mo]
     ptp = calc_funds(ws, ws_mo, r, 'C')
     trevor = calc_funds(ws, ws_mo, r, 'E')
     kfh = calc_funds(ws, ws_mo, r, 'G')
@@ -58,19 +54,20 @@ def month_funds(wb, ws, r):
     return (ptp, trevor, kfh, others)
 
 
-def total_funds(folder, month, year):
+def total_funds(folder, month, year, num_mo):
     """Get total funds and put into new Excel file
 
     Args:
         folder (str): Folder path
         month  (str): Month name
         year   (str): Year
+        num_mo (int): Number of months
 
     Returns:
         wb_new (Workbook): Workbook Object
     """
     wb_new, ws_new = gen_empty_excel()
-    ws_new.append((f'TOTAL FUNDS AS OF ({month} {year})',))
+    ws_new.append((f'TOTAL FUNDS (AS OF {month} {year})',))
     ws_new.merge_cells('A1:E1')
     ws_new.append(('CLUB NAME', 'PTP', 'TREVOR PROJECT',
                    'KFH', 'OTHER CHARITIES'))
@@ -78,16 +75,20 @@ def total_funds(folder, month, year):
     count = 0
     for file in os.listdir(folder):
         # Preliminary file check
-        if file.split('.')[-1] not in ('xls', 'xlsx', 'xlsm') or os.path.isdir(file) or file in OUT_FNS:
+        if (file.split('.')[-1] not in ('xls', 'xlsx', 'xlsm') or
+                os.path.isdir(file) or file[:-20] in OUT_FNS):
             continue
         print(f'Reading {file}...')
         file_path = os.path.join(folder, file)
         wb = read_excel_file(file_path)
-        ws = read_excel_sheet(wb, 'Annual Totals')
-        school_name = read_excel_sheet(wb, 'Club Administration')['A12'].value
+        try:
+            ws = wb['Annual Totals']
+        except KeyError:
+            continue
+        school_name = wb['Club Administration']['A12'].value
         # Calculate funds
         ptp = trevor = kfh = others = 0.0
-        for r in range(60, 72):
+        for r in range(60, 60+num_mo):
             ptp_m, trevor_m, kfh_m, others_m = month_funds(wb, ws, r)
             ptp += ptp_m
             trevor += trevor_m
@@ -95,12 +96,13 @@ def total_funds(folder, month, year):
             others += others_m
         ws_new.append((school_name, ptp, trevor, kfh, others))
         count += 1
+    print()
     print('Post-processing...')
     if not count:
         print('W: No Excel file processed!')
     nrows = len(ws_new['A'])
-    ws_new.append(
-        ('TOTAL FUNDS', f'=SUM(B3:B{nrows})', f'=SUM(C3:C{nrows})', f'=SUM(D3:D{nrows})', f'=SUM(E3:E{nrows})'))
+    ws_new.append(('TOTAL FUNDS', f'=SUM(B3:B{nrows})', f'=SUM(C3:C{nrows})',
+                   f'=SUM(D3:D{nrows})', f'=SUM(E3:E{nrows})'))
     for row in ws_new[f'B3:E{nrows+1}']:
         for cell in row:
             cell.number_format = '$#,##0.00;[Red]-$#,##0.00'

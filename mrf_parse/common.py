@@ -18,6 +18,10 @@ except ModuleNotFoundError:
         print('Cannot install dependencies!')
         sys.exit()
 
+OUT_FNS = ('DISTRICT BOARD FEEDBACK',
+           'TOTAL HOURS PER TENET',
+           'TOTAL FUNDS RAISED PER DFI')
+
 
 def read_excel_file(fn):
     """Read Excel file
@@ -30,20 +34,6 @@ def read_excel_file(fn):
     """
     wb = xl.load_workbook(fn, read_only=True)
     return wb
-
-
-def read_excel_sheet(wb, sheetn):
-    """Read Excel sheet
-
-    Args:
-        wb     (Workbook): Workbook object
-        sheetn (str)     : Sheet name
-
-    Returns:
-        ws (ReadOnlyWorksheet): Read-only worksheet object
-    """
-    ws = wb[sheetn]
-    return ws
 
 
 def gen_empty_excel():
