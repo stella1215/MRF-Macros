@@ -1,12 +1,12 @@
 # MRF Parse
 
-This is a collection of scripts that extract data from MRF files
+This is a collection of scripts that extract data from MRF files.
 
 ## Prerequisites
 
-* Python 3 (from [https://www.python.org/downloads/](https://www.python.org/downloads/))
-* OpenPyXl (Automatically installed upon first use)
-  * See [OpenPyXl Manual Installation](#openpyxl-manual-installation) if automatic installation fails
+* Python 3 (from [https://www.python.org/downloads/](https://www.python.org/downloads/)).
+* OpenPyXl (Automatically installed upon first use).
+  * See [OpenPyXl Manual Installation](#openpyxl-manual-installation) if automatic installation fails.
 
 ### OpenPyXl Manual Installation
 
@@ -64,13 +64,13 @@ Required arguments:
                                     m: Funds (money)
 
 Optional arguments:
-  -m (1-12), --month (1-12)       Month number (1-12). Default current month
+  -m (1-12), --month (1-12)       Month number (1-12). Default current month.
   -y YEAR  , --year YEAR          Year number. Default current year or last year.
-                                    See below for explanation
+                                    See below for explanation.
   -i INDIR , --indir INDIR        Folder with MRF Excel files. Default current
-                                    folder
+                                    folder.
   -o OUTDIR, --outdir OUTDIR      Folder to put the summary in. Default current
-                                    folder
+                                    folder.
 ```
 
 ### Default Year
@@ -79,6 +79,6 @@ The default year is determined using the following critera:
 
 * If the *current* month is **Mar.** through **Dec.**, the default year is the **current** year.
 * If the *current* month *and* the *requested* month are *both* **Jan.** or **Feb.**, the default year is the **current** year.
-* If the *current* month is **Jan.** or **Feb.** *but* the *requested* month is **Mar.** through **Dec.**, the default year is the **last** year
+* If the *current* month is **Jan.** or **Feb.** *but* the *requested* month is **Mar.** through **Dec.**, the default year is the **last** year.
 
 This mechanism is implemented such that in most cases, the generated report is for a month in the past and in the same CKI year.
