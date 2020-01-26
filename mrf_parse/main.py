@@ -45,8 +45,7 @@ def parse_sys_args(argv):
     # Parse arguments
     par = AP(prog='mrf_parse', add_help=False,
              description=('Summarize MRFs\' feedbacks, hours, '
-                          'and money (funds) data into another Excel file'),
-             usage='%(prog)s month year procedure [-i [INDIR]] [-o [OUTDIR]]')
+                          'and money (funds) data into another Excel file'))
     par.add_argument('proc', metavar='procedure', choices=('f', 'h', 'm'),
                      help='Procedure ([f]eedbacks/[h]ours/[m]oney)')
     par.add_argument('-m', '--month', type=int, choices=range(1, 13),
@@ -55,10 +54,10 @@ def parse_sys_args(argv):
     par.add_argument('-y', '--year', type=int,
                      help=('Year number. Default current year (Jan-Feb) '
                            'or last year (Mar-Dec). See README'))
-    par.add_argument('-i', '--indir', nargs='?', default='.', type=in_ok,
+    par.add_argument('-i', '--indir', default='.', type=in_ok,
                      help=('Directory of MRF Excel files. '
                            'Default current folder'))
-    par.add_argument('-o', '--outdir', nargs='?', default='.',
+    par.add_argument('-o', '--outdir', default='.',
                      help=('Directory to put the summary in. '
                            'Default current folder'))
     if argv[0] == '-h':

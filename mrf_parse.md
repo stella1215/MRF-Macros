@@ -55,7 +55,7 @@ This is a collection of scripts that extract data from MRF files
 2. Execute `py -3 mrf_parse` on Windows, or `python3 mrf_parse` on macOS and Linux with appropriate arguments. The script will guide you through the process if no arguments are given.
 
 ```text
-Usage: mrf_parse month year procedure [-i [INDIR]] [-o [OUTDIR]]
+Usage: mrf_parse procedure [-m (1-12)] [-y YEAR] [-i INDIR] [-o OUTDIR]
 
 Required arguments:
   proc                            Procedure (f/h/m)
@@ -65,11 +65,11 @@ Required arguments:
 
 Optional arguments:
   -m (1-12), --month (1-12)       Month number (1-12). Default current month
-  -y YEAR, --year YEAR            Year number. Default current year or last year.
+  -y YEAR  , --year YEAR          Year number. Default current year or last year.
                                     See below for explanation
-  -i [INDIR], --indir [INDIR]     Folder with MRF Excel files. Default current
+  -i INDIR , --indir INDIR        Folder with MRF Excel files. Default current
                                     folder
-  -o [OUTDIR], --outdir [OUTDIR]  Folder to put the summary in. Default current
+  -o OUTDIR, --outdir OUTDIR      Folder to put the summary in. Default current
                                     folder
 ```
 
