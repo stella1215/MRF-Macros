@@ -59,9 +59,9 @@ def parse_sys_args(argv):
                      help=('Directory of MRF Excel files. '
                            'Default current folder'))
     par.add_argument('-o', '--outdir', nargs='?', default='.',
-                     help=('Directory to put the summary in.'
+                     help=('Directory to put the summary in. '
                            'Default current folder'))
-    if not argv:
+    if argv[0] == '-h':
         par.print_help()
         exit(1)
     args = par.parse_args(argv)
